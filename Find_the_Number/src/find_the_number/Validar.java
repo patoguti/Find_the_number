@@ -10,7 +10,7 @@ public class Validar {
 	public int[] getNumero(){
 		return this.numero;
 	}
-	public boolean repeticion(){
+	public boolean repeticion(int[] numero){
 		boolean flag=false;
 		for(int i=0;i<numero.length;i++){
 			for (int j=0;j<i; j++){
