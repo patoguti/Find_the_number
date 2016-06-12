@@ -10,11 +10,15 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
 import javax.swing.JTextField;
 
 import java.awt.event.ActionEvent;
-import javax.swing.SwingConstants;
 
+import javax.swing.SwingConstants;
+import javax.swing.JFormattedTextField;
+
+@SuppressWarnings("serial")
 public class TimerEj extends JFrame {
 	private int segundos;
 	private JPanel contentPane;
@@ -32,11 +36,22 @@ public class TimerEj extends JFrame {
 	};
 	
 	private JTextField textField;
+	private JFormattedTextField formattedTextField;
 	public void start(){
 		tiempo.scheduleAtFixedRate(task, 1000, 1000);
 	}
 	public int getSegundos(){
 		return this.segundos;
+	}
+	protected MaskFormatter createFormatter(String s) {					//Solo deja ingresar numeros
+	    MaskFormatter formatter = null;
+	    try {
+	        formatter = new MaskFormatter(s);
+	    } catch (java.text.ParseException exc) {
+	        System.err.println("formatter is bad: " + exc.getMessage());
+	        System.exit(-1);
+	    }
+	    return formatter;
 	}
 	/**
 	 * Launch the application.
@@ -79,6 +94,10 @@ public class TimerEj extends JFrame {
 		*/
 		contentPane.add(textField);
 		textField.setColumns(10);
+		
+		formattedTextField = new JFormattedTextField(createFormatter("####"));		//4 "#" para ingresar
+		formattedTextField.setBounds(10, 10, 110, 40);								//4 numeros solamente
+		contentPane.add(formattedTextField);
+		
 	}
-
 }
