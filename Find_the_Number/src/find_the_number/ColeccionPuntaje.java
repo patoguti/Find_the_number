@@ -4,9 +4,16 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class ColeccionPuntaje {
 	private Puntaje ptje;
+	public Puntaje getPtje() {
+		return ptje;
+	}
+	public void setPtje(Puntaje ptje) {
+		this.ptje = ptje;
+	}
 	ColeccionPuntaje(){};
 	ColeccionPuntaje(Puntaje puntaje) {
 		this.ptje = puntaje;
@@ -29,7 +36,7 @@ public class ColeccionPuntaje {
 		return lectura;
 	}
 	//Convierte texto en una matriz
-	private String[][] puntajeModificar() {
+	public String[][] puntajeModificar() {
 		ArrayList<String> puntaje = leerPuntaje();
 		String[][] tabla = new String[10][4];
 		for (int i = 0; i < 10; i++) {
@@ -56,19 +63,41 @@ public class ColeccionPuntaje {
 	// Modifica y posteriormente guarda puntaje (si es necesario)
 	private String[][] modificarPuntaje() {
 		String tabla[][] = puntajeModificar();
-		for (int i = 0; i < 10; i++) {
-			if (this.ptje.getPuntos() > Integer.parseInt(tabla[i][1])) {
-				tabla[i][0] = this.ptje.getJugador();
-				tabla[i][1] = String.valueOf(this.ptje.getPuntos());
-				tabla[i][2] = String.valueOf(this.ptje.getTurnos());
-				tabla[i][3] = this.ptje.getTiempoJuego();
-				guardarPuntaje((mostrarPuntaje()));
-				return tabla;
+		int i=0;
+		boolean flag=true;
+		for (i=0; i < 10; i++) {
+			if (this.ptje.getPuntos() > Integer.parseInt(tabla[i][3])) {
+				break;
 			}
 		}
-		String[][] a = new String[2][2];
-		a[1][1] = "void";
-		return a;
+		System.out.println("asd"+i);
+		if(i<10)flag=true;
+				for(int j=9;j>=i;j--){
+					
+					if(j>0){
+						tabla[j][0]=tabla[j-1][0];
+						tabla[j][1]=tabla[j-1][1];
+						tabla[j][2]=tabla[j-1][2];
+						tabla[j][3]=tabla[j-1][3];
+						
+					}
+					if(j==i){
+						tabla[i][0] = this.ptje.getJugador();
+						tabla[i][1] = String.valueOf(this.ptje.getTurnos());
+						tabla[i][2] = this.ptje.getTiempoJuego();
+						tabla[i][3] = String.valueOf(this.ptje.getPuntos());
+					}				
+				}
+		textoGuardar(tabla);
+		if(flag){
+			return tabla;
+		}else{
+			String[][] a = new String[2][2];
+			a[1][1] = "void";
+			return a;
+		}
+			
+		
 	}
 
 	// retorna true si el puntaje se modifico
@@ -79,9 +108,25 @@ public class ColeccionPuntaje {
 		}
 		return true;
 	}
-	//Convierte matriz en una string para mostrar en pantalla
+	//Convierte matriz para guardar en texto
+	private void textoGuardar(String lectura[][]) {
+		String pantalla = "";
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 4; j++) {
+				if (j == 3) {
+					pantalla += lectura[i][j];
+				} else {
+					pantalla += lectura[i][j] + "\t";
+				}
+			}
+			if (i != 9) {
+				pantalla += "\n";
+			}
+		}
+		guardarPuntaje(pantalla);
+	}
 	public String mostrarPuntaje() {
-		String[][] lectura = puntajeModificar();
+		String lectura[][]=puntajeModificar();
 		String pantalla = "";
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 4; j++) {

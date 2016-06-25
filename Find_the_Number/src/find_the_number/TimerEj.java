@@ -25,12 +25,23 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.DropMode;
 import java.awt.ComponentOrientation;
 import javax.swing.ListSelectionModel;
+import javax.swing.JButton;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 @SuppressWarnings("serial")
 public class TimerEj extends JFrame {
-	//borrar debido a que se usa en Juego()
+	
 	private int segundos;
+	private int turnos;
 	private JPanel contentPane;
+	private JTextField textField;
+	private JFormattedTextField formattedTextField;
+	private JTable table;
+	private Juego juego;
+	private JLabel lblError;
+
+	
 	//Inicio Timer
 	Timer tiempo=new Timer();
 	TimerTask task=new TimerTask(){
@@ -51,11 +62,6 @@ public class TimerEj extends JFrame {
 	}
 	//fin Timer
 	
-	private JTextField textField;
-	private JFormattedTextField formattedTextField;
-	private JTable table;
-
-	
 	public int getSegundos(){
 		return this.segundos;
 	}
@@ -68,6 +74,35 @@ public class TimerEj extends JFrame {
 	        System.exit(-1);
 	    }
 	    return formatter;
+	}
+	
+	private void accionIngreso(boolean opc){
+		if(opc){
+			//escribir en tabla
+			((DefaultTableModel) table.getModel()).insertRow(table.getRowCount(),new Object[]{formattedTextField.getText(),juego.getComp().getToque(),juego.getComp().getFama()});
+			formattedTextField.setText("");
+			lblError.setText("");
+			turnos++;
+			finJuego(juego.getComp().getFama());
+			
+		}else{
+			//pop-up error
+			if(!juego.getNumIngresado().getVal().esNumero(formattedTextField.getText())){
+				lblError.setText("Error!, Longitud incorrecta");
+			}else{
+				lblError.setText("Error!, Numeros repetidos");
+				
+			}
+			formattedTextField.setText("");
+		}
+	}
+	private void finJuego(int fama){
+		if(fama==4){
+			tiempo.cancel();
+			ColeccionPuntaje colecc=new ColeccionPuntaje(new Puntaje(turnos,String.valueOf(segundos)));
+			//System.out.println(colecc.puntajeModificado());
+			//System.out.println(segundos);
+		}
 	}
 	/**
 	 * Launch the application.
@@ -90,6 +125,7 @@ public class TimerEj extends JFrame {
 	 */
 	public TimerEj() {
 		super("Toque o Fama");
+		this.juego=new Juego();
 		start();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -100,41 +136,33 @@ public class TimerEj extends JFrame {
 		
 		
 		textField = new JTextField();
+		textField.setFocusable(false);
 		textField.setHorizontalAlignment(SwingConstants.RIGHT);
 		textField.setEditable(false);
 		textField.setBounds(376, 11, 48, 20);
-	/*	textField.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			textField.setText(String.valueOf(seg));
-			}
-		});
-		*/
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
 		formattedTextField = new JFormattedTextField(createFormatter("####"));
-		formattedTextField.setToolTipText("");
-		formattedTextField.setHorizontalAlignment(SwingConstants.LEFT);
-		formattedTextField.setBounds(0, 0, 107, 39);								//4 numeros solamente
+		formattedTextField.setHorizontalAlignment(SwingConstants.CENTER);
+		formattedTextField.setBounds(164, 27, 107, 39);								//4 numeros solamente
 		contentPane.add(formattedTextField);
 		
         
         table = new JTable();
+        table.addComponentListener(new ComponentAdapter() {
+        	@Override
+        	public void componentResized(ComponentEvent arg0) {
+        		 table.scrollRectToVisible(table.getCellRect(table.getRowCount()-1, 0, true));
+        	}
+        });
         table.setEnabled(false);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		//Datos de tabla
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
+					
 				
 			},//Cabecera de columnas
 			new String[] {
@@ -153,8 +181,28 @@ public class TimerEj extends JFrame {
 		table.getTableHeader().setResizingAllowed(false);
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setAutoscrolls(true);
+		
 		scrollPane.setBounds(98, 77, 245, 140);
 		contentPane.add(scrollPane);
+		
+		JButton btnEnter = new JButton("Enter");
+		btnEnter.setFocusable(false);
+		btnEnter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			boolean op=juego.compararNum(formattedTextField.getText());
+			accionIngreso(op);
+			}
+		});
+		btnEnter.setBounds(284, 35, 89, 23);
+		contentPane.add(btnEnter);
+		
+		JLabel lblNumero = new JLabel("Ingrese Numero");
+		lblNumero.setBounds(54, 21, 100, 50);
+		contentPane.add(lblNumero);
+		
+		lblError = new JLabel("");
+		lblError.setBounds(136, 228, 176, 22);
+		contentPane.add(lblError);
 		//Agregar columnas con lo de abajo
 		//((DefaultTableModel) table.getModel()).insertRow(table.getRowCount(),new Object[]{"hello","50","readyyy"});
 	

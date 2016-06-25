@@ -19,10 +19,14 @@ public class Numero {
 
 	Numero() {
 	}
-
-	Numero(int cifras) {
+	Numero(int cifras){
+		this.longitud=cifras;
+	}
+	Numero(int cifras,boolean generado) {
 		this.longitud = cifras;
-		generarNumero();
+		if(generado){
+			generarNumero();
+		}
 	}
 
 	public int getLongitud() {
