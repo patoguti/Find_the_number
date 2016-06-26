@@ -118,12 +118,11 @@ public class VentanaJuego extends JFrame {
 		if (fama == 4) {
 			tiempo.cancel();
 			juego.setGuardarPtje(new ColeccionPuntaje(new Puntaje(turnos, String.valueOf(segundos))));
-			if (juego.getGuardarPtje().puntajeModificado()) {
+			if (juego.getGuardarPtje().puntajeAlto()) {
 				System.out.println("listo");
 				// ARREGLAR
 				// TERMINAR EN REALIDAD
 			}
-			System.out.println(juego.getGuardarPtje().puntajeAlto());
 			System.exit(0);
 
 		}
