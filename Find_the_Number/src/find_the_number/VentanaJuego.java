@@ -23,14 +23,22 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.DropMode;
+
 import java.awt.ComponentOrientation;
+
 import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
+
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+import jdk.nashorn.internal.runtime.regexp.joni.Warnings;
 
 @SuppressWarnings("serial")
-public class TimerEj extends JFrame {
+
+public class VentanaJuego extends JFrame {
 	
 	private int segundos;
 	private int turnos;
@@ -56,6 +64,7 @@ public class TimerEj extends JFrame {
 			textField.setText(a);
 		}
 	};
+	private JButton btnMenu;
 	//orden para comenzar timer
 	public void start(){
 		tiempo.scheduleAtFixedRate(task, 1000, 1000);
@@ -99,9 +108,14 @@ public class TimerEj extends JFrame {
 	private void finJuego(int fama){
 		if(fama==4){
 			tiempo.cancel();
-			ColeccionPuntaje colecc=new ColeccionPuntaje(new Puntaje(turnos,String.valueOf(segundos)));
-			//System.out.println(colecc.puntajeModificado());
-			//System.out.println(segundos);
+			juego.setGuardarPtje(new ColeccionPuntaje(new Puntaje(turnos,String.valueOf(segundos))));
+			if(juego.getGuardarPtje().puntajeModificado()){
+				System.out.println("listo");
+			//ARREGLAR
+				//TERMINAR EN REALIDAD
+			}
+			System.exit(0);
+			
 		}
 	}
 	/**
@@ -111,7 +125,7 @@ public class TimerEj extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TimerEj frame = new TimerEj();
+					VentanaJuego frame = new VentanaJuego();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -123,10 +137,11 @@ public class TimerEj extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TimerEj() {
-		super("Toque o Fama");
+	public VentanaJuego() {
+		super("F1nd th3 Numb3r");
 		this.juego=new Juego();
 		start();
+		for(int i=0;i<4;i++)System.out.println(juego.getNumGen().getNum()[i]);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -144,6 +159,9 @@ public class TimerEj extends JFrame {
 		textField.setColumns(10);
 		
 		formattedTextField = new JFormattedTextField(createFormatter("####"));
+		formattedTextField.setVerifyInputWhenFocusTarget(false);
+		formattedTextField.setFocusTraversalKeysEnabled(false);
+		 
 		formattedTextField.setHorizontalAlignment(SwingConstants.CENTER);
 		formattedTextField.setBounds(164, 27, 107, 39);								//4 numeros solamente
 		contentPane.add(formattedTextField);
@@ -179,13 +197,8 @@ public class TimerEj extends JFrame {
 		table.setBounds(80, 6, 160, 160);
 		table.getTableHeader().setReorderingAllowed(false);
 		table.getTableHeader().setResizingAllowed(false);
-		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setAutoscrolls(true);
 		
-		scrollPane.setBounds(98, 77, 245, 140);
-		contentPane.add(scrollPane);
-		
-		JButton btnEnter = new JButton("Enter");
+		JButton btnEnter = new JButton("Ingresar");
 		btnEnter.setFocusable(false);
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -203,8 +216,23 @@ public class TimerEj extends JFrame {
 		lblError = new JLabel("");
 		lblError.setBounds(136, 228, 176, 22);
 		contentPane.add(lblError);
+		
+		btnMenu = new JButton("Menu");
+		btnMenu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			new MenuPrincipal().setVisible(true);
+			dispose();
+			}
+		});
+		btnMenu.setBounds(10, 228, 89, 23);
+		contentPane.add(btnMenu);
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setAutoscrolls(true);
+		
+		scrollPane.setBounds(98, 77, 245, 140);
+		contentPane.add(scrollPane);
 		//Agregar columnas con lo de abajo
 		//((DefaultTableModel) table.getModel()).insertRow(table.getRowCount(),new Object[]{"hello","50","readyyy"});
-	
+		setLocationRelativeTo(null);
 	}
 }

@@ -14,11 +14,15 @@ import javax.swing.JTable;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MostrarPuntaje extends JFrame {
 	private ColeccionPuntaje cp;
 	private JPanel contentPane;
 	private JTable table;
+	private JButton btnVolver;
 
 	/**
 	 * Launch the application.
@@ -48,7 +52,7 @@ public class MostrarPuntaje extends JFrame {
 	public MostrarPuntaje() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 212);
+		setBounds(100, 100, 450, 244);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -75,10 +79,21 @@ public class MostrarPuntaje extends JFrame {
 			table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
 		}
 		scrollPane.setViewportView(table);
+		
+		btnVolver = new JButton("Menu");
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new MenuPrincipal().setVisible(true);
+				dispose();
+			}
+		});
+		btnVolver.setBounds(176, 192, 89, 23);
+		contentPane.add(btnVolver);
 		table.getColumnModel().getColumn(0).setPreferredWidth(90);
 		table.getColumnModel().getColumn(1).setPreferredWidth(90);
 		table.getColumnModel().getColumn(2).setPreferredWidth(90);
 		table.getColumnModel().getColumn(3).setPreferredWidth(90);
 		accionIngreso();
+		setLocationRelativeTo(null);
 	}
 }
