@@ -22,7 +22,7 @@ public class ColeccionPuntaje {
 	// Extrae texto de archivo
 	private ArrayList<String> leerPuntaje() {
 		ArrayList<String> lectura = new ArrayList<String>();
-		File puntaje = new File("puntaje.txt");
+		File puntaje = new File("D:\\puntaje.txt");
 		try {
 			Scanner scanner = new Scanner(puntaje);
 			while (scanner.hasNextLine()) {
@@ -36,7 +36,7 @@ public class ColeccionPuntaje {
 		return lectura;
 	}
 	//Convierte texto en una matriz
-	public String[][] puntajeModificar() {
+	public String[][] puntajeMatriz() {
 		ArrayList<String> puntaje = leerPuntaje();
 		String[][] tabla = new String[10][4];
 		for (int i = 0; i < 10; i++) {
@@ -48,10 +48,10 @@ public class ColeccionPuntaje {
 		return tabla;
 	}
 
-	// Sobreescribe texto con los nuevos puntajes (si es necesario)
+	// Escribe en el texto la string de entrada
 	private void guardarPuntaje(String texto) {
 		try {
-			FileWriter puntaje = new FileWriter("puntaje.txt");
+			FileWriter puntaje = new FileWriter("D:\\puntaje.txt");
 			puntaje.write(texto);
 			puntaje.close();
 		} catch (Exception ex) {
@@ -59,10 +59,18 @@ public class ColeccionPuntaje {
 		}
 
 	}
-
+	public boolean puntajeAlto(){
+		for (int i=0; i < 10; i++) {
+			if (this.ptje.getPuntos() > Integer.parseInt(puntajeMatriz()[i][3])) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	// Modifica y posteriormente guarda puntaje (si es necesario)
 	private String[][] modificarPuntaje() {
-		String tabla[][] = puntajeModificar();
+		String tabla[][] = puntajeMatriz();
 		int i=0;
 		boolean flag=true;
 		for (i=0; i < 10; i++) {
@@ -126,7 +134,7 @@ public class ColeccionPuntaje {
 		guardarPuntaje(pantalla);
 	}
 	public String mostrarPuntaje() {
-		String lectura[][]=puntajeModificar();
+		String lectura[][]=puntajeMatriz();
 		String pantalla = "";
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 4; j++) {

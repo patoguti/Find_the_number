@@ -29,7 +29,7 @@ public class MostrarPuntaje extends JFrame {
 	 */
 	private void accionIngreso(){
 		cp=new ColeccionPuntaje();
-		String tabla[][]=cp.puntajeModificar();
+		String tabla[][]=cp.puntajeMatriz();
 		for(int i=0;i<10;i++)((DefaultTableModel) table.getModel()).insertRow(table.getRowCount(),new Object[]{tabla[i][0],tabla[i][1],tabla[i][2],tabla[i][3]});
 
 	}
@@ -45,11 +45,13 @@ public class MostrarPuntaje extends JFrame {
 			}
 		});
 	}
+	
 
 	/**
 	 * Create the frame.
 	 */
 	public MostrarPuntaje() {
+		super("F1nd th3 Numb3r");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 244);
@@ -64,8 +66,11 @@ public class MostrarPuntaje extends JFrame {
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
-		table.setFont(new Font("Comic Sans MS", Font.PLAIN, 15));
-		
+		table.setRowHeight(20);
+		table.setFont(new Font("Arial", Font.PLAIN, 16));
+		table.setEnabled(false);
+		table.getTableHeader().setReorderingAllowed(false);
+		table.getTableHeader().setResizingAllowed(false);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 			},

@@ -23,7 +23,7 @@ public class Instrucciones extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -35,11 +35,13 @@ public class Instrucciones extends JFrame {
 			}
 		});
 	}
+	*/
 
 	/**
 	 * Create the frame.
 	 */
 	public Instrucciones() {
+		super("F1nd th3 Numb3r");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -49,7 +51,7 @@ public class Instrucciones extends JFrame {
 		
 		
 		JTextPane texto = new JTextPane();
-		texto.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		texto.setFont(new Font("Arial", Font.PLAIN, 16));
 		texto.setAutoscrolls(false);
 		texto.setEditable(false);
 		texto.setText("\u00A1Bienvenido a 'F1ND TH3 NUMB3R'!\r\nEl objetivo principal del juego es descubrir el n\u00FAmero oculto creado por nuestro RNG. (Random Number Generator).\r\nEl n\u00FAmero oculto posee 4 cifras, y \u00E9stas deben ser descubiertas \u00A1por ti!, usando tu perspicacia y capacidad de analizar las pistas que te entregaremos.\r\nPara alcanzar este objetivo deber\u00E1s ir ingresando diversas soluciones hasta dar con la acertada,  intentando resolver el acertijo en la menor cantidad de intentos y tiempo posibles.\r\nLas pistas son las siguientes: En la pantalla aparecera una tabla la cual tendra las columnas toque y fama.\r\nEl valor que aparezca en la columna toque se refiere a n\u00FAmeros ingresados que est\u00E1n presentes en el n\u00FAmero generado pero en una posici\u00F3n distinta.\r\nEl valor que aparezca en la columna fama se refiere a n\u00FAmeros ingresados que estan exactamente en la misma posici\u00F3n que el n\u00FAmero generado.\r\n El juego finaliza cuando aciertas a todas las cifras en su respectiva posici\u00F3n, es decir, cuando obtienes el valor de 4 en la columna fama.\r\n\u00A1Buena Suerte!");
@@ -59,10 +61,10 @@ public class Instrucciones extends JFrame {
 			       scrollPane.getVerticalScrollBar().setValue(0);
 			   }
 			});
+			
 		scrollPane.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		scrollPane.setBounds(0, 11, 434, 215);
 		contentPane.add(scrollPane);
-		
 		JButton btnMenu = new JButton("Menu");
 		btnMenu.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

@@ -37,13 +37,14 @@ public class MenuPrincipal extends JFrame {
 			}
 		});
 	}
+	
 
 	/**
 	 * Create the frame.
 	 */
 	public MenuPrincipal() {
 		super("F1nd th3 Numb3r");
-		
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 399, 247);
 		contentPane = new JPanel();
