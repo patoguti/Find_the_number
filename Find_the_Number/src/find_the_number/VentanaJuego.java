@@ -114,6 +114,8 @@ public class VentanaJuego extends JFrame {
 	// Analiza la cantidad de pistas. Si termina ve el puntaje si es que esta
 	// dentro
 	// de los 10 mejores para pedir nombre y guardar en el archivo
+	//si no, muestra mensaje con el puntaje
+	//ambos muestran los puntajes al terminar
 	private void finJuego(int fama) {
 		if (fama == 4) {
 			tiempo.cancel();
@@ -125,6 +127,8 @@ public class VentanaJuego extends JFrame {
 				}
 			juego.getGuardarPtje().getPtje().setJugador(jugador);
 			juego.getGuardarPtje().modificarPuntaje();
+			}else{
+				JOptionPane.showMessageDialog(contentPane, "Juego terminado\nPuntaje Obtenido: "+juego.getGuardarPtje().getPtje().getPuntos());
 			}
 			new MostrarPuntaje().setVisible(true);
 			dispose();
