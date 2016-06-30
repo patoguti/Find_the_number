@@ -24,9 +24,7 @@ public class Numero {
 	}
 	Numero(int cifras,boolean generado) {
 		this.longitud = cifras;
-		if(generado){
-			generarNumero();
-		}
+		generarNumero();
 	}
 
 	public int getLongitud() {

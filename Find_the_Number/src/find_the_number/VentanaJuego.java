@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.JFormattedTextField;
@@ -113,17 +114,20 @@ public class VentanaJuego extends JFrame {
 	// Analiza la cantidad de pistas. Si termina ve el puntaje si es que esta
 	// dentro
 	// de los 10 mejores para pedir nombre y guardar en el archivo
-	// ------------------------------EN CONSTRUCCION-----------------------
 	private void finJuego(int fama) {
 		if (fama == 4) {
 			tiempo.cancel();
 			juego.setGuardarPtje(new ColeccionPuntaje(new Puntaje(turnos, String.valueOf(segundos))));
 			if (juego.getGuardarPtje().puntajeAlto()) {
-				System.out.println("listo");
-				// ARREGLAR
-				// TERMINAR EN REALIDAD
+				String jugador=JOptionPane.showInputDialog("Puntaje alto obtenido!\n Ingrese nombre");
+				while(jugador.equals("")){
+					jugador=JOptionPane.showInputDialog("Ingrese al menos un caracter");
+				}
+			juego.getGuardarPtje().getPtje().setJugador(jugador);
+			juego.getGuardarPtje().modificarPuntaje();
 			}
-			System.exit(0);
+			new MostrarPuntaje().setVisible(true);
+			dispose();
 
 		}
 	}
@@ -175,7 +179,6 @@ public class VentanaJuego extends JFrame {
 		try {
 			formattedTextField = new JFormattedTextField(new MaskFormatter("####"));
 		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 

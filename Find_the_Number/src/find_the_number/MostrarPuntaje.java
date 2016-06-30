@@ -14,10 +14,13 @@ import javax.swing.JTable;
 
 import java.awt.Dimension;
 import java.awt.Font;
+
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+@SuppressWarnings("serial")
 public class MostrarPuntaje extends JFrame {
 	private ColeccionPuntaje cp;
 	private JPanel contentPane;
@@ -54,7 +57,7 @@ public class MostrarPuntaje extends JFrame {
 		super("F1nd th3 Numb3r");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 244);
+		setBounds(100, 100, 450, 291);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -62,7 +65,7 @@ public class MostrarPuntaje extends JFrame {
 		contentPane.setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 0, 444, 183);
+		scrollPane.setBounds(0, 0, 444, 223);
 		contentPane.add(scrollPane);
 		
 		table = new JTable();
@@ -92,12 +95,11 @@ public class MostrarPuntaje extends JFrame {
 				dispose();
 			}
 		});
-		btnVolver.setBounds(176, 192, 89, 23);
+		btnVolver.setBounds(175, 234, 89, 23);
 		contentPane.add(btnVolver);
-		table.getColumnModel().getColumn(0).setPreferredWidth(90);
-		table.getColumnModel().getColumn(1).setPreferredWidth(90);
-		table.getColumnModel().getColumn(2).setPreferredWidth(90);
-		table.getColumnModel().getColumn(3).setPreferredWidth(90);
+		for(int i=0;i<4;i++){
+			table.getColumnModel().getColumn(i).setPreferredWidth(90);
+		}
 		accionIngreso();
 		setLocationRelativeTo(null);
 	}
