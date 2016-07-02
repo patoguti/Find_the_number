@@ -166,9 +166,6 @@ public class VentanaJuego extends JFrame {
 		this.juego = new Juego();
 		start();
 		
-		for (int i = 0; i < 4; i++){
-			System.out.println(juego.getNumGen().getNum()[i]);
-		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
