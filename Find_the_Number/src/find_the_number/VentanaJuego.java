@@ -118,13 +118,18 @@ public class VentanaJuego extends JFrame {
 	//ambos muestran los puntajes al terminar
 	private void finJuego(int fama) {
 		if (fama == 4) {
+			String jugador="";
 			tiempo.cancel();
 			juego.setGuardarPtje(new ColeccionPuntaje(new Puntaje(turnos, String.valueOf(segundos))));
 			if (juego.getGuardarPtje().puntajeAlto()) {
-				String jugador=JOptionPane.showInputDialog("Puntaje alto obtenido!\n Ingrese nombre");
+				jugador=JOptionPane.showInputDialog("Puntaje alto obtenido!\n Ingrese nombre");
+				if(jugador.length()>10){
+					jugador=jugador.substring(0, 10);
+				}
 				while(jugador.equals("")){
 					jugador=JOptionPane.showInputDialog("Ingrese al menos un caracter");
 				}
+			
 			juego.getGuardarPtje().getPtje().setJugador(jugador);
 			juego.getGuardarPtje().modificarPuntaje();
 			}else{
@@ -160,6 +165,7 @@ public class VentanaJuego extends JFrame {
 		setResizable(false);
 		this.juego = new Juego();
 		start();
+		
 		for (int i = 0; i < 4; i++){
 			System.out.println(juego.getNumGen().getNum()[i]);
 		}

@@ -2,6 +2,7 @@ package find_the_number;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
@@ -18,10 +19,22 @@ public class ColeccionPuntaje {
 	}
 
 	ColeccionPuntaje() {
-	};
+	
+	}
 
 	ColeccionPuntaje(Puntaje puntaje) {
 		this.ptje = puntaje;
+		File archivo=new File("D:\\puntaje.txt");
+		try {
+			if(archivo.createNewFile()){
+				guardarPuntaje(plantilla());
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 	// Lee texto de archivo,retorna string
@@ -122,12 +135,16 @@ public class ColeccionPuntaje {
 		}
 		guardarPuntaje(pantalla);
 	}
-
-	// SIN USO
-	/* public String mostrarPuntaje() { String lectura[][] = puntajeMatriz();
-	 * String pantalla = ""; for (int i = 0; i < 10; i++) { for (int j = 0; j <
-	 * 4; j++) { if (j == 3) { pantalla += lectura[i][j]; } else { pantalla +=
-	 * lectura[i][j] + "\t"; } } if (i != 9) { pantalla += "\n"; } } return
-	 * pantalla;}
-	 */
+	//Carga el archivo con la plantilla  si es que no existe
+	private String plantilla(){
+		String plant="";
+		for(int i=0;i<10;i++){
+			if(i<9){
+				plant+=" \t0\t00:00\t000\n";
+			}else{
+				plant+=" \t0\t00:00\t000";
+			}
+		}
+		return plant;
+	}
 }
